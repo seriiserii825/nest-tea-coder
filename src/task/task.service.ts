@@ -17,4 +17,10 @@ export class TaskService {
     }
     return task;
   }
+
+  create() {
+    const newTask = { id: Date.now(), name: 'New Task', isCompleted: false };
+    this.tasks.push(newTask);
+    return newTask;
+  }
 }
