@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
 
@@ -23,6 +27,10 @@ export class TaskService {
   create(dto: CreateTaskDto) {
     const { title } = dto;
     const newTask = { id: Date.now(), name: title, isCompleted: false };
+    const is_unique = !this.tasks.find((task) => task.name === title);
+    if (!is_unique) {
+      throw new ConflictException('Task with this name already exists');
+    }
     this.tasks.push(newTask);
     return newTask;
   }
@@ -30,7 +38,7 @@ export class TaskService {
   update(id: number, dto: UpdateTaskDto) {
     const { title, isCompleted } = dto;
 
-    const task = this.findById(id)
+    const task = this.findById(id);
     if (!task) {
       throw new NotFoundException('Task not found');
     }
