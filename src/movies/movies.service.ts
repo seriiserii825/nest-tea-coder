@@ -12,7 +12,14 @@ export class MoviesService {
   ) {}
 
   async findAll(): Promise<MovieEntity[]> {
-    return this.movieRepository.find();
+    return this.movieRepository.find({
+      order: {
+        created_at: 'DESC',
+      },
+      where: {
+        release_year: 2022
+      }
+    });
   }
 
   async create(dto: CreateMovieDto): Promise<MovieEntity> {
