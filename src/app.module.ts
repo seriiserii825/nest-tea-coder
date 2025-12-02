@@ -4,10 +4,10 @@ import { AppService } from './app.service';
 import { TaskModule } from './task/task.module';
 import { MoviesModule } from './movies/movies.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { dataSourceOptions } from './config/data-source';
+import { typeormConfig } from './config/typeorm-config';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dataSourceOptions), TaskModule, MoviesModule],
+  imports: [TypeOrmModule.forRoot(typeormConfig), TaskModule, MoviesModule],
   controllers: [AppController],
   providers: [AppService],
 })
