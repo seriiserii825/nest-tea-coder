@@ -5,6 +5,7 @@ import {
   IsNumber,
   IsOptional,
   IsString,
+  IsUrl,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -29,4 +30,7 @@ export class CreateTaskDto {
   @IsNumber()
   @IsOptional()
   priority: number;
+
+  @IsUrl({}, { message: 'websiteUrl must be a valid URL' })
+  websiteUrl: string;
 }
