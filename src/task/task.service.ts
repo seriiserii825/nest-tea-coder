@@ -39,4 +39,14 @@ export class TaskService {
     this.tasks = this.tasks.map((t) => (t.id === id ? task : t));
     return task;
   }
+
+  delete(id: number) {
+    const taskIndex = this.tasks.findIndex((task) => task.id === id);
+    if (taskIndex === -1) {
+      throw new NotFoundException('Task not found');
+    }
+    const deletedTask = this.tasks[taskIndex];
+    this.tasks.splice(taskIndex, 1);
+    return deletedTask;
+  }
 }
