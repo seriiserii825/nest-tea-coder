@@ -3,7 +3,6 @@ version: "3.9"
 services:
   postgres:
     image: "postgres:16"
-    container_name: "postgres"
     restart: always
     environment:
       POSTGRES_PASSWORD: "secret_pass"
@@ -16,7 +15,6 @@ services:
 
   pgadmin:
     image: dpage/pgadmin4
-    container_name: pgadmin
     environment:
       PGADMIN_DEFAULT_EMAIL: "admin@example.com"   # логин для входа в pgAdmin
       PGADMIN_DEFAULT_PASSWORD: "admin"           # пароль для входа в pgAdmin
