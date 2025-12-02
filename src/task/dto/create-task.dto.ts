@@ -9,9 +9,10 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-
+import { StartWith } from '../decorators/start-with.decorator';
 export class CreateTaskDto {
   @IsString()
+  @StartWith('Task:')
   @MinLength(5)
   @MaxLength(30)
   @IsNotEmpty()
@@ -30,7 +31,6 @@ export class CreateTaskDto {
   @IsNumber()
   @IsOptional()
   priority: number;
-
   @IsUrl({}, { message: 'websiteUrl must be a valid URL' })
   websiteUrl: string;
 }
