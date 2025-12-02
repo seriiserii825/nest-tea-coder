@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsNotEmpty,
@@ -12,9 +13,15 @@ export class CreateTaskDto {
   @MinLength(5)
   @MaxLength(30)
   @IsNotEmpty()
+  @ApiProperty({ example: 'Learn NestJS', description: 'Task title' })
   title: string;
 
   @IsBoolean()
   @IsOptional()
+  @ApiProperty({
+    example: false,
+    description: 'Task completion status',
+    required: false,
+  })
   isCompleted: boolean;
 }

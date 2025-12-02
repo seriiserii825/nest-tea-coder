@@ -11,7 +11,9 @@ import {
 import { TaskService } from './task.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('tasks') // groups endpoints in Swagger
 @Controller('tasks')
 export class TaskController {
   constructor(private readonly taskService: TaskService) {}
@@ -35,7 +37,7 @@ export class TaskController {
   update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdateTaskDto) {
     return this.taskService.update(id, dto);
   }
-  
+
   @Delete(':id')
   delete(@Param('id', ParseIntPipe) id: number) {
     return this.taskService.delete(id);
