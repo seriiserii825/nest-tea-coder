@@ -9,5 +9,5 @@ export class CreateMovieDto {
   @IsNotEmpty()
   @Min(1888)
   @Max(new Date().getFullYear())
-  releaseYear: number;
+  release_year: number;
 }

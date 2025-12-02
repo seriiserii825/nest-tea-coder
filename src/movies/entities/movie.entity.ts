@@ -3,10 +3,12 @@ import {
   CreateDateColumn,
   Entity,
   PrimaryGeneratedColumn,
+  Unique,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity('movies')
+@Unique(['title'])
 export class MovieEntity {
   @PrimaryGeneratedColumn()
   id: number;
