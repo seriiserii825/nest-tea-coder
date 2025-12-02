@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsBoolean,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   MaxLength,
@@ -24,4 +25,8 @@ export class CreateTaskDto {
     required: false,
   })
   isCompleted: boolean;
+
+  @IsNumber()
+  @IsOptional()
+  priority: number;
 }

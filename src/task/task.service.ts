@@ -25,8 +25,13 @@ export class TaskService {
   }
 
   create(dto: CreateTaskDto) {
-    const { title } = dto;
-    const newTask = { id: Date.now(), name: title, isCompleted: false };
+    const { title, priority } = dto;
+    const newTask = {
+      id: Date.now(),
+      name: title,
+      priority,
+      isCompleted: false,
+    };
     const is_unique = !this.tasks.find((task) => task.name === title);
     if (!is_unique) {
       throw new ConflictException('Task with this name already exists');
