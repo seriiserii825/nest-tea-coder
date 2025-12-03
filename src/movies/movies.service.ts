@@ -6,15 +6,17 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MovieEntity } from './entities/movie.entity';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
+import { ActorsService } from 'src/actors/actors.service';
 
 @Injectable()
 export class MoviesService {
   constructor(
     @InjectRepository(MovieEntity)
     private readonly movieRepository: Repository<MovieEntity>,
+    private readonly actorService: ActorsService,
   ) {}
 
   async findAll(): Promise<MovieEntity[]> {
@@ -26,11 +28,18 @@ export class MoviesService {
   }
 
   async create(dto: CreateMovieDto): Promise<MovieEntity> {
-    const movie = this.movieRepository.create(dto);
     try {
+      const movie = this.movieRepository.create(dto);
+      const actors = await this.actorService.find({
+        where: { id: In(dto.actor_ids) },
+      });
+      movie.actors = actors;
       await this.movieRepository.save(movie);
       return movie;
-    } catch (error) {
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.log(error.message);
+      }
       throw new HttpException('Movie with this title already exists', 400);
     }
   }

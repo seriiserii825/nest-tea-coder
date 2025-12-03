@@ -6,9 +6,10 @@ import { MoviesModule } from './movies/movies.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeormConfig } from './config/typeorm-config';
 import { ReviewsModule } from './reviews/reviews.module';
+import { ActorsModule } from './actors/actors.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeormConfig), TaskModule, MoviesModule, ReviewsModule],
+  imports: [TypeOrmModule.forRoot(typeormConfig), TaskModule, MoviesModule, ReviewsModule, ActorsModule],
   controllers: [AppController],
   providers: [AppService],
 })
