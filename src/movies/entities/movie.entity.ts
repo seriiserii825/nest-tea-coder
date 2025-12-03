@@ -1,7 +1,9 @@
+import { ReviewEntity } from 'src/reviews/entities/review.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
@@ -37,6 +39,9 @@ export class MovieEntity {
     default: Genre.COMEDY,
   })
   genre: Genre;
+
+  @OneToMany(() => ReviewEntity, (review) => review.movie)
+  reviews: ReviewEntity[];
 
   @CreateDateColumn()
   created_at: Date;
