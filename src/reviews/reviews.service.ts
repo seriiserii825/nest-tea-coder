@@ -19,7 +19,10 @@ export class ReviewsService {
     try {
       return await this.reviewRepository.save(review);
     } catch (error) {
-      throw new InternalServerErrorException('Failed to create review');
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new InternalServerErrorException(
+        `Failed to create review: ${message}`,
+      );
     }
   }
 }
