@@ -13,10 +13,16 @@ export class MovieEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
+  @Column({
+    type: 'varchar',
+    length: 128,
+  })
   title: string;
 
-  @Column()
+  @Column({
+    type: 'int',
+    unsigned: true,
+  })
   release_year: number;
 
   @CreateDateColumn()
