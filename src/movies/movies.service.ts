@@ -54,4 +54,13 @@ export class MoviesService {
     }
     return movie;
   }
+
+  async delete(id: number): Promise<void> {
+    const movie = await this.findById(id);
+    try {
+      await this.movieRepository.remove(movie);
+    } catch (error) {
+      throw new HttpException('Failed to delete the movie', 500);
+    }
+  }
 }
