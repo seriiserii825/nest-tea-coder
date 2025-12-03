@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MovieEntity } from './entities/movie.entity';
-import { In, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { ActorsService } from 'src/actors/actors.service';
@@ -30,9 +30,7 @@ export class MoviesService {
   async create(dto: CreateMovieDto): Promise<MovieEntity> {
     try {
       const movie = this.movieRepository.create(dto);
-      const actors = await this.actorService.find({
-        where: { id: In(dto.actor_ids) },
-      });
+      const actors = await this.actorService.findByIds(dto.actor_ids)
       movie.actors = actors;
       await this.movieRepository.save(movie);
       return movie;
