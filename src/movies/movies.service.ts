@@ -30,15 +30,19 @@ export class MoviesService {
   async create(dto: CreateMovieDto): Promise<MovieEntity> {
     try {
       const movie = this.movieRepository.create(dto);
-      const actors = await this.actorService.findByIds(dto.actor_ids)
+      const actors = await this.actorService.findByIds(dto.actor_ids);
+      if (actors.length === 0) {
+        throw new NotFoundException('No actors found with the provided IDs');
+      }
       movie.actors = actors;
       await this.movieRepository.save(movie);
       return movie;
     } catch (error: unknown) {
+      let message = 'Unknown error';
       if (error instanceof Error) {
-        console.log(error.message);
+        message = error.message;
       }
-      throw new HttpException('Movie with this title already exists', 400);
+      throw new HttpException(`Failed to create movie: ${message}`, 500);
     }
   }
 
