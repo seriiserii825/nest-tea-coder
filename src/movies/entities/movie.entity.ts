@@ -1,12 +1,15 @@
 import { ActorEntity } from 'src/actors/entities/actor.entity';
+import { MoviePosterEntity } from 'src/poster/entities/poster.entity';
 import { ReviewEntity } from 'src/reviews/entities/review.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   Unique,
   UpdateDateColumn,
@@ -53,6 +56,15 @@ export class MovieEntity {
     inverseJoinColumn: { name: 'actor_id', referencedColumnName: 'id' },
   })
   actors: ActorEntity[];
+
+  @Column({ default: null })
+  poster_id: number;
+
+  @OneToOne(() => MoviePosterEntity, (poster) => poster.movie, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'poster_id' })
+  poster: MoviePosterEntity;
 
   @CreateDateColumn()
   created_at: Date;

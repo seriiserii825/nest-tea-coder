@@ -18,6 +18,9 @@ export class CreateMovieDto {
   @Max(new Date().getFullYear())
   release_year: number;
 
+  @IsInt()
+  poster_id: number;
+
   @IsArray()
   @IsNotEmpty({ each: true })
   actor_ids: number[];

@@ -10,6 +10,7 @@ import { Repository } from 'typeorm';
 import { CreateMovieDto } from './dto/create-movie.dto';
 import { UpdateMovieDto } from './dto/update-movie.dto';
 import { ActorsService } from 'src/actors/actors.service';
+import { PosterService } from 'src/poster/poster.service';
 
 @Injectable()
 export class MoviesService {
@@ -17,6 +18,7 @@ export class MoviesService {
     @InjectRepository(MovieEntity)
     private readonly movieRepository: Repository<MovieEntity>,
     private readonly actorService: ActorsService,
+    private readonly posterService: PosterService,
   ) {}
 
   async findAll(): Promise<MovieEntity[]> {
@@ -35,6 +37,10 @@ export class MoviesService {
         throw new NotFoundException('No actors found with the provided IDs');
       }
       movie.actors = actors;
+
+      const poster = await this.posterService.findById(dto.poster_id);
+      movie.poster = poster;
+
       await this.movieRepository.save(movie);
       return movie;
     } catch (error: unknown) {

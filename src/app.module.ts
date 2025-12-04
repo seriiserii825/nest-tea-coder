@@ -7,9 +7,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { typeormConfig } from './config/typeorm-config';
 import { ReviewsModule } from './reviews/reviews.module';
 import { ActorsModule } from './actors/actors.module';
+import { PosterModule } from './poster/poster.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(typeormConfig), TaskModule, MoviesModule, ReviewsModule, ActorsModule],
+  imports: [TypeOrmModule.forRoot(typeormConfig), TaskModule, MoviesModule, ReviewsModule, ActorsModule, PosterModule],
   controllers: [AppController],
   providers: [AppService],
 })
