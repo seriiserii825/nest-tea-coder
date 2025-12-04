@@ -9,6 +9,11 @@ export class ActorsService {
     @InjectRepository(ActorEntity)
     private readonly actorRepository: Repository<ActorEntity>,
   ) {}
+
+  async findAll(): Promise<ActorEntity[]> {
+    return this.actorRepository.find();
+  }
+
   async findByIds(ids: number[]): Promise<ActorEntity[]> {
     return this.actorRepository.find({
       where: {
