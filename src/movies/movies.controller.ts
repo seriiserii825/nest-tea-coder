@@ -8,31 +8,31 @@ import {UpdateMovieDto} from './dto/update-movie.dto';
 export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
-  @Get()
-  findAll() {
-    return this.moviesService.findAll();
-  }
-
-  @Get(':id')
-  findById(@Param('id', ParseIntPipe) id: number) {
-    return this.moviesService.findById(id);
-  }
-
-  @Post()
-  create(@Body() dto: CreateMovieDto): Promise<MovieEntity> {
-    return this.moviesService.create(dto);
-  }
-
-  @Put(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpdateMovieDto,
-  ): Promise<MovieEntity> {
-    return this.moviesService.update(id, dto);
-  }
-
-  @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return this.moviesService.delete(id);
-  }
+  // @Get()
+  // findAll() {
+  //   return this.moviesService.findAll();
+  // }
+  //
+  // @Get(':id')
+  // findById(@Param('id', ParseIntPipe) id: number) {
+  //   return this.moviesService.findById(id);
+  // }
+  //
+  // @Post()
+  // create(@Body() dto: CreateMovieDto): Promise<MovieEntity> {
+  //   return this.moviesService.create(dto);
+  // }
+  //
+  // @Put(':id')
+  // update(
+  //   @Param('id', ParseIntPipe) id: number,
+  //   @Body() dto: UpdateMovieDto,
+  // ): Promise<MovieEntity> {
+  //   return this.moviesService.update(id, dto);
+  // }
+  //
+  // @Delete(':id')
+  // delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
+  //   return this.moviesService.delete(id);
+  // }
 }
