@@ -1,16 +1,76 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
   provider = "postgresql"
 }
 
-model User {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String?
+model Movie {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String?
+  release_year Int
+  rating       Float    @default(0.0)
+  is_avalaible Boolean  @default(false)
+  genre        Genre    @default(DRAMA)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  reviews      Review[] @relation("movie_reviews")
+
+  poster      MoviePoster? @relation(fields: [poster_id], references: [id], onDelete: SetNull)
+  poster_id  Int? @unique
+
+  actors Actor[] @relation("movie_actors")
+
+  @@map("movies")
+}
+
+model MoviePoster {
+  id        Int    @id @default(autoincrement())
+  url       String
+  movie     Movie?  @relation
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("movie_posters")
+}
+
+model Review {
+  id     Int    @id @default(autoincrement())
+  text   String
+  rating Float  @default(0.0)
+
+  movie    Movie @relation("movie_reviews", fields: [movie_id], references: [id], onDelete: Cascade)
+  movie_id Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("reviews")
+}
+
+model Actor {
+  id   Int    @id @default(autoincrement())
+  name String
+
+  movies Movie[] @relation("movie_actors")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("actors")
+}
+
+enum Genre {
+  ACTION
+  COMEDY
+  DRAMA
+  HORROR
+  ROMANCE
+  SCIFI
+  FANTASY
+
+  @@map("genres")
 }
