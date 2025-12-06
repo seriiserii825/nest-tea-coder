@@ -1,7 +1,4 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { MoviePosterEntity } from './entities/poster.entity';
-import { Repository } from 'typeorm';
 import { CreatePosterDto } from './dto/create-poster.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { MoviePoster } from '@prisma/client';

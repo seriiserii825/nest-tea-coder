@@ -10,26 +10,28 @@ export class ActorsService {
     return this.prismaService.actor.findMany();
   }
 
-  // async findByIds(ids: number[]): Promise<ActorEntity[]> {
-  //   const actors = await this.actorRepository.find({
-  //     where: {
-  //       id: In(ids),
-  //     },
-  //   });
-  //   if (actors.length === 0) {
-  //     throw new InternalServerErrorException(
-  //       'No actors found with the provided IDs',
-  //     );
-  //   }
-  //   if (actors.length !== ids.length) {
-  //     const foundIds = actors.map((actor) => actor.id);
-  //     const notFoundIds = ids.filter((id) => !foundIds.includes(id));
-  //     throw new InternalServerErrorException(
-  //       `Actors not found with IDs: ${notFoundIds.join(', ')}`,
-  //     );
-  //   }
-  //   return actors;
-  // }
+  async findByIds(ids: number[]): Promise<Actor[]> {
+    const actors = await this.prismaService.actor.findMany({
+      where: {
+        id: {
+          in: ids,
+        },
+      },
+    });
+    if (actors.length === 0) {
+      throw new InternalServerErrorException(
+        'No actors found with the provided IDs',
+      );
+    }
+    if (actors.length !== ids.length) {
+      const foundIds = actors.map((actor) => actor.id);
+      const notFoundIds = ids.filter((id) => !foundIds.includes(id));
+      throw new InternalServerErrorException(
+        `Actors not found with IDs: ${notFoundIds.join(', ')}`,
+      );
+    }
+    return actors;
+  }
   async create(dto: CreateActorDto): Promise<Actor> {
     try {
       const actor = await this.prismaService.actor.create({
