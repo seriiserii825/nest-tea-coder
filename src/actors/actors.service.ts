@@ -1,19 +1,15 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { ActorEntity } from './entities/actor.entity';
-import { In, Repository } from 'typeorm';
 import { CreateActorDto } from './dto/create-actor.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import {Actor} from '@prisma/client';
 @Injectable()
 export class ActorsService {
-  // constructor(
-  //   @InjectRepository(ActorEntity)
-  //   private readonly actorRepository: Repository<ActorEntity>,
-  // ) {}
-  //
-  // async findAll(): Promise<ActorEntity[]> {
-  //   return this.actorRepository.find();
-  // }
-  //
+  constructor(private readonly prismaService: PrismaService) {}
+
+  async findAll(): Promise<Actor[]> {
+    return this.prismaService.actor.findMany();
+  }
+
   // async findByIds(ids: number[]): Promise<ActorEntity[]> {
   //   const actors = await this.actorRepository.find({
   //     where: {
@@ -34,15 +30,19 @@ export class ActorsService {
   //   }
   //   return actors;
   // }
-  // async create(dto: CreateActorDto): Promise<ActorEntity> {
-  //   try {
-  //     const actor = this.actorRepository.create(dto);
-  //     return await this.actorRepository.save(actor);
-  //   } catch (error) {
-  //     const message = error instanceof Error ? error.message : 'Unknown error';
-  //     throw new InternalServerErrorException(
-  //       `Failed to create actor: ${message}`,
-  //     );
-  //   }
-  // }
+  async create(dto: CreateActorDto): Promise<Actor> {
+    try {
+      const actor = await this.prismaService.actor.create({
+        data: {
+          name: dto.name,
+        },
+      });
+      return actor;
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown error';
+      throw new InternalServerErrorException(
+        `Failed to create actor: ${message}`,
+      );
+    }
+  }
 }
